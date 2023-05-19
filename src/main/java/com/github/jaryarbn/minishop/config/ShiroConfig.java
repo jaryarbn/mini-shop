@@ -2,7 +2,6 @@ package com.github.jaryarbn.minishop.config;
 
 import com.github.jaryarbn.minishop.service.ShiroRealm;
 import com.github.jaryarbn.minishop.service.VerificationCodeCheckService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
