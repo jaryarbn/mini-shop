@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,9 +27,18 @@ public class UserService {
         user.setUpdatedAt(new Date());
         try {
             userDao.insertUser(user);
-        }catch (PersistenceException e){
+        } catch (PersistenceException e) {
             return userDao.getUserByTel(tel);
         }
         return user;
+    }
+
+    /**
+     * 根据电话号码返回用户，如果用户不存在返回 null
+     * @param tel
+     * @return User
+     */
+    public Optional<User> getUserByTel(String tel) {
+        return Optional.ofNullable(userDao.getUserByTel(tel));
     }
 }
