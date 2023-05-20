@@ -45,6 +45,12 @@ public class AuthController {
     }
 
     public static class TelAndCode {
+
+        public TelAndCode(String tel, String code) {
+            this.tel = tel;
+            this.code = code;
+        }
+
         private String tel;
         private String code;
 
