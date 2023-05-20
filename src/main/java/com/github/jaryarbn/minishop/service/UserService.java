@@ -2,6 +2,7 @@ package com.github.jaryarbn.minishop.service;
 
 import com.github.jaryarbn.minishop.dao.UserDao;
 import com.github.jaryarbn.minishop.generate.User;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ public class UserService {
     private final UserDao userDao;
 
     @Autowired
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
