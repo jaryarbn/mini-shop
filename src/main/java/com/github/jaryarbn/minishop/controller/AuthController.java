@@ -1,10 +1,9 @@
 package com.github.jaryarbn.minishop.controller;
 
-import com.github.jaryarbn.minishop.generate.User;
+import com.github.jaryarbn.minishop.entity.LoginResponse;
 import com.github.jaryarbn.minishop.service.AuthService;
 import com.github.jaryarbn.minishop.service.TelVerificationService;
 import com.github.jaryarbn.minishop.service.UserContext;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,33 +45,11 @@ public class AuthController {
 
         SecurityUtils.getSubject().login(token);
     }
-
-    public static class LoginResponse {
-        private boolean login;
-        private User user;
-
-        public static LoginResponse notLogin() {
-            return new LoginResponse(false, null);
-        }
-
-        public static LoginResponse login(User user) {
-            return new LoginResponse(true, user);
-        }
-
-        private LoginResponse(boolean login, User user) {
-            this.login = login;
-            this.user = user;
-        }
-
-        public boolean isLogin() {
-            return login;
-        }
-
-        @SuppressFBWarnings("EI_EXPOSE_REP")
-        public User getUser() {
-            return user;
-        }
+    @PostMapping("/logout")
+    public void logout(@RequestBody TelAndCode telAndCode) {
+        SecurityUtils.getSubject().logout();
     }
+
 
     @PostMapping("/status")
     public LoginResponse loginStatus() {
