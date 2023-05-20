@@ -33,12 +33,13 @@ public class ShiroConfig {
 
         securityManager.setRealm(shiroRealm);
         securityManager.setCacheManager(new MemoryConstrainedCacheManager());
-        securityManager.setSessionManager(new DefaultSessionManager());
+        securityManager.setSessionManager(new DefaultWebSecurityManager());
 //        SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
+
     @Bean
-    public ShiroRealm myShiroRealm(VerificationCodeCheckService verificationCodeCheckService){
+    public ShiroRealm myShiroRealm(VerificationCodeCheckService verificationCodeCheckService) {
         return new ShiroRealm(verificationCodeCheckService);
     }
 }
