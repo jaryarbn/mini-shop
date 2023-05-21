@@ -81,7 +81,7 @@ public class AuthIntegrationTest {
 
         // 执行注销
         // 注销登录也需要带 Cookie，要不然服务器压根就不知道是谁来注销的
-        doHttpRequest("/api/login", false, null, sessionId);
+        doHttpRequest("/api/logout", false, null, sessionId);
         // 再次带着 Cookie访问/api/status，恢复成为未登录状态
         statusResponse = doHttpRequest("/api/status", true, null, sessionId).body;
 

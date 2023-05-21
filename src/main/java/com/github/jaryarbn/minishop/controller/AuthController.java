@@ -8,6 +8,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,7 @@ public class AuthController {
     }
 
 
-    @PostMapping("/code")
+    @PostMapping(value = "/code", produces = MediaType.APPLICATION_JSON_VALUE)
     public void code(@RequestBody TelAndCode telAndCode, HttpServletResponse response) {
         if (telVerificationService.verifyTelParameter(telAndCode)) {
             authService.sendVerificationCode(telAndCode.getTel());
@@ -38,21 +40,22 @@ public class AuthController {
 
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public void login(@RequestBody TelAndCode telAndCode) {
         UsernamePasswordToken token = new UsernamePasswordToken(telAndCode.getTel(), telAndCode.getCode());
         token.setRememberMe(true);
 
         SecurityUtils.getSubject().login(token);
     }
-    @PostMapping("/logout")
-    public void logout(@RequestBody TelAndCode telAndCode) {
+
+    @PostMapping(value = "/logout")
+    public void logout() {
         SecurityUtils.getSubject().logout();
     }
 
 
-    @PostMapping("/status")
-    public LoginResponse loginStatus() {
+    @GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object loginStatus() {
         if (UserContext.getCurrentUser() == null) {
             return LoginResponse.notLogin();
         } else {
