@@ -4,6 +4,7 @@ import com.github.jaryarbn.minishop.service.ShiroRealm;
 import com.github.jaryarbn.minishop.service.UserLoginInterceptor;
 import com.github.jaryarbn.minishop.service.UserService;
 import com.github.jaryarbn.minishop.service.VerificationCodeCheckService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -43,10 +44,12 @@ public class ShiroConfig implements WebMvcConfigurer {
         pattern.put("/api/login", "anon");
         pattern.put("/api/logout", "anon");
         pattern.put("/api/status", "anon");
-        pattern.put("/**", "shiroLoginFilter");
+        pattern.put("/**", "authc");
 
         Map<String, Filter> filtersMap = new HashMap<>();
-        filtersMap.put("shiroLoginFilter", new ShiroLoginFilter());
+        filtersMap.put("authc", new ShiroLoginFilter());
+        shiroFilterFactoryBean.setFilters(filtersMap);
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(pattern);
         return shiroFilterFactoryBean;
     }
@@ -58,7 +61,7 @@ public class ShiroConfig implements WebMvcConfigurer {
         securityManager.setRealm(shiroRealm);
         securityManager.setCacheManager(new MemoryConstrainedCacheManager());
         securityManager.setSessionManager(new DefaultWebSessionManager());
-//        SecurityUtils.setSecurityManager(securityManager);
+        SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
 

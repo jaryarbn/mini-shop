@@ -22,6 +22,7 @@ import static com.github.jaryarbn.minishop.service.TelVerificationServiceTest.VA
 import static com.github.jaryarbn.minishop.service.TelVerificationServiceTest.VALID_PARAMETER_CODE;
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MiniShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -117,6 +118,16 @@ public class AuthIntegrationTest {
                 .code();
 
         Assertions.assertEquals(HTTP_BAD_REQUEST, responseCode);
+    }
+
+    @Test
+    public void returnUnauthorizedIfNotLogin() {
+        int responseCode = HttpRequest.post(getUrl("/api/any"))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .code();
+
+        Assertions.assertEquals(HTTP_UNAUTHORIZED, responseCode);
     }
 
     private String getUrl(String apiName) {
