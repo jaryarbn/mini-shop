@@ -9,6 +9,7 @@
                         connectionURL="jdbc:mysql://localhost:3306/mini-shop?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;characterEncoding=utf-8"
                         userId="root"
                         password="root">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver>

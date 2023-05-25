@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,12 @@ public class ShiroConfig implements WebMvcConfigurer {
         Map<String, String> pattern = new HashMap<>();
         pattern.put("/api/code", "anon");
         pattern.put("/api/login", "anon");
+        pattern.put("/api/logout", "anon");
+        pattern.put("/api/status", "anon");
+        pattern.put("/**", "shiroLoginFilter");
+
+        Map<String, Filter> filtersMap = new HashMap<>();
+        filtersMap.put("shiroLoginFilter", new ShiroLoginFilter());
         shiroFilterFactoryBean.setFilterChainDefinitionMap(pattern);
         return shiroFilterFactoryBean;
     }
